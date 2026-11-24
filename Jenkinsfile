@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                   mvn sonar:sonar \
-                    -Dsonar.projectKey=leave-service-<BITSID> \
+                    -Dsonar.projectKey=leave-service-2024SL70042 \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.token=$SONAR_TOKEN
                 '''
