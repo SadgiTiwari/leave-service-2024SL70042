@@ -26,7 +26,7 @@ pipeline {
         stage('SonarQube Code Inspection') {
             steps {
                 sh '''
-                  mvn sonar:sonar \
+                  mvn org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar \
                     -Dsonar.projectKey=leave-service-2024SL70042 \
                     -Dsonar.host.url=http://localhost:9000 \
                     -Dsonar.token=$SONAR_TOKEN
