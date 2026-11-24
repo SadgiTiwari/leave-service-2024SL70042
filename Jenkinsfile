@@ -51,5 +51,23 @@ pipeline {
                 '''
             }
         }
-    }
+        stage('Approval') {
+            steps {
+                input message: 'Staging verified. Deploy to production?', ok: 'Approve'
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                sh '''
+                  docker rm -f leave-production || true
+                  docker run -d --name leave-production -p 8086:8080 \
+                    -e APP_ENV=production leave-service:${BUILD_NUMBER}
+                  sleep 5
+                  curl -s http://localhost:8086
+                '''
+            }
+        }  
+
+  }
 }
