@@ -33,5 +33,23 @@ pipeline {
                 '''
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t leave-service:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Deploy to Staging') {
+            steps {
+                sh '''
+                  docker rm -f leave-staging || true
+                  docker run -d --name leave-staging -p 8085:8080 \
+                    -e APP_ENV=staging leave-service:${BUILD_NUMBER}
+                  sleep 5
+                  curl -s http://localhost:8085
+                '''
+            }
+        }
     }
 }
